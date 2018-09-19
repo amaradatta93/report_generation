@@ -6,6 +6,7 @@
     <table class="table">
         <thead>
         <tr>
+            <th scope="col">Account </th>
             <th scope="col">IMEI </th>
             <th scope="col">SIM_Number </th>
             <th scope="col">Added_On </th>
@@ -19,10 +20,11 @@
         <tbody>
             {% for info in output.Device %}
                 <tr>
-                    <th scope="row">{{ info.IMEI  }}</th>
+                    <th scope="row">{{ output.Account  }}, {{ output.id }}</th>
+                    <td>{{ info.IMEI  }}</td>
                     <td>{{ info.SIM_Number  }}</td>
                     <td>{{ info.Added_On  }}</td>
-                    <td>@{{ info.Last_Reported_Date  }}</td>
+                    <td>{{ info.Last_Reported_Date  }}</td>
                     <td>{{ info.Last_Reported_Time  }}</td>
                     <td>{{ info.Device_Status  }}</td>
                     <td>{{ info.Billing_Status  }}</td>
