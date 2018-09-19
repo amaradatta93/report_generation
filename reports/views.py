@@ -1,14 +1,13 @@
-from django.http import JsonResponse
 from django.shortcuts import render
 
-from .utils import get_device_info, date_and_time
+from .utils import get_device_info, date_and_time, get_account_name
 
 
 def all_device_info(request, account_key):
     device_info = get_device_info(account_key)
-    # output = [{'Account_Id': account_key}]
+    name = get_account_name(account_key)
     output = {
-        'Account_Id': account_key,
+        'Account': name,
         'Device': []
     }
     for device in device_info:
@@ -26,5 +25,3 @@ def all_device_info(request, account_key):
             'Comments': device.comments.replace("\r\n", " "),
         })
     return render(request, 'dashboard.html', {'output': output})
-    # return JsonResponse({'Account_Id': account_key, 'Device': output})
-    # return JsonResponse(output)

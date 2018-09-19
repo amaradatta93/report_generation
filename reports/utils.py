@@ -1,9 +1,9 @@
 from .models import *
 
 
-def get_account_info():
-    account_details = Account()
-    return account_details
+def get_account_name(account_key):
+    account_details = Account.objects.get(account_id=account_key)
+    return account_details.account_name
 
 
 def get_device_info(account_key):
