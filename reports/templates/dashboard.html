@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+{% for account in aai %}
+    {{ account.Account }}
+    <!--{% for info in account.Device %}-->
+        <!--{{ output.Account  }}, {{ output.id }}-->
+        <!--{{ info.IMEI }}-->
+        <!--{{ info.SIM_Number }}-->
+        <!--{{ info.Added_On }}-->
+        <!--{{ info.Last_Reported_Date }}-->
+        <!--{{ info.Last_Reported_Time }}-->
+        <!--{{ info.Device_Status }}-->
+        <!--{{ info.Billing_Status }}-->
+        <!--{{ info.Comments }}-->
+    {% endfor %}
+{% endfor %}
+
+{% endblock %}
