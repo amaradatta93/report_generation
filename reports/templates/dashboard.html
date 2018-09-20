@@ -21,7 +21,7 @@
         {% for account in response %}
         <tbody>
             {% if account.Device %}
-                {% for info in output.Device %}
+                {% for info in account.Device %}
                     <tr>
                         <th scope="row">{{ account.Account }}, {{ account.id }}</th>
                         <td>{{ info.IMEI }}</td>
