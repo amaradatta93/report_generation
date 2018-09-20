@@ -23,7 +23,7 @@
             {% if account.Device %}
                 {% for info in account.Device %}
                     <tr>
-                        <th scope="row">{{ account.Account }}, {{ account.id }}</th>
+                        <th scope="row">{{ account.Account }}</th>
                         <td>{{ info.IMEI }}</td>
                         <td>{{ info.SIM_Number }}</td>
                         <td>{{ info.Added_On }}</td>

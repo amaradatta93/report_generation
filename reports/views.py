@@ -10,14 +10,8 @@ def all_device_info(request, account_key=None):
         response = []
         all_accounts = get_all_account()
         for account in all_accounts:
-            # print(account.account_id)
             key = account.account_id
             response.append(return_device_info(key))
-        #     for each_device in response:
-        #     pprint.pprint(response)
-        #     aai.append(response)
-        #     # pprint.pprint(aai)
-        # pprint.pprint(aai)
         return render(request, 'dashboard.html', {'response': response})
     else:
         output = return_device_info(account_key)

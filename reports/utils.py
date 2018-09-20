@@ -1,5 +1,4 @@
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, get_list_or_404
+from django.shortcuts import get_object_or_404
 
 from .models import *
 
@@ -27,26 +26,26 @@ def return_device_dict(account_key):
 def return_device_info(account_key):
     device_info = DeviceRegister.objects.filter(account_id=account_key)
     device_details = return_device_dict(account_key)
-    # if device_info:
-    # for device in device_info:
-    #     print('test2')
-    #     date_time = date_and_time(device.imei)
-    #     device_date = date_time[0]
-    #     device_time = date_time[1]
-    #     device_details['Device'].append({
-    #         'IMEI': device.imei,
-    #         'SIM_Number': device.sim_no,
-    #         'Added_On': device.added_on,
-    #         'Last_Reported_Date': device_date,
-    #         'Last_Reported_Time': device_time,
-    #         'Device_Status': device.device_status,
-    #         'Billing_Status': device.billing_status,
-    #         'Comments': device.comments.replace("\r\n", " "),
-    #     })
-    print(device_details)
-    print(type(device_details))
-    # print(device_details).keys()
-    return device_details
+    try:
+        for device in device_info:
+            print('test2')
+            date_time = date_and_time(device.imei)
+            device_date = date_time[0]
+            device_time = date_time[1]
+            device_details['Device'].append({
+                'IMEI': device.imei,
+                'SIM_Number': device.sim_no,
+                'Added_On': device.added_on,
+                'Last_Reported_Date': device_date,
+                'Last_Reported_Time': device_time,
+                'Device_Status': device.device_status,
+                'Billing_Status': device.billing_status,
+                'Comments': device.comments.replace("\r\n", " "),
+            })
+        return device_details
+    except Exception as e:
+        print(e)
+        return return_device_dict(account_key)
 
 
 def date_and_time(device_imei):
