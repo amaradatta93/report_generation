@@ -34,16 +34,6 @@
                         <td>{{ info.Comments }}</td>
                     </tr>
                 {% endfor %}
-            {% else %}
-               <th scope="row">{{ account.Account }}, {{ account.id }}</th>
-                <td>No IMEI </td>
-                <td>No SIM_Number</td>
-                <td>No Added_On</td>
-                <td>No Last_Reported_Date</td>
-                <td>No Last_Reported_Time</td>
-                <td>No Device_Status</td>
-                <td>No Billing_Status</td>
-                <td>No Comments</td>
             {% endif %}
         </tbody>
         {% endfor %}
