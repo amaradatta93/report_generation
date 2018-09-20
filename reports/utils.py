@@ -28,7 +28,6 @@ def return_device_info(account_key):
     device_details = return_device_dict(account_key)
     try:
         for device in device_info:
-            print('test2')
             date_time = date_and_time(device.imei)
             device_date = date_time[0]
             device_time = date_time[1]
