@@ -18,6 +18,7 @@ def all_device_info(request, account_key=None):
         pprint.pprint(aai)
         return render(request, 'dashboard.html', {'aai': aai})
     else:
-        output = return_device_dict(account_key)
+        output = return_device_info(account_key)
         print(type(output))
+        # pprint.pprint(output)
     return render(request, 'account_device.html', {'output': output})

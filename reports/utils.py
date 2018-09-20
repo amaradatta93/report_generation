@@ -24,16 +24,17 @@ def return_device_dict(account_key):
     return output
 
 
-def return_device_info():
+def return_device_info(account_key):
     device_info = DeviceRegister.objects.filter(account_id=account_key)
-    device_details = []
+    device_details = return_device_dict(account_key)
+    print(device_details)
     if device_info:
         for device in device_info:
             print('test2')
             date_time = date_and_time(device.imei)
             device_date = date_time[0]
             device_time = date_time[1]
-            device_details.append({
+            device_details['Device'].append({
                 'IMEI': device.imei,
                 'SIM_Number': device.sim_no,
                 'Added_On': device.added_on,
