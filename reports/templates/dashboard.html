@@ -2,19 +2,51 @@
 {% block content %}
 
 
-{% for account in aai %}
-    {{ account.Account }}
-    <!--{% for info in account.Device %}-->
-        <!--{{ output.Account  }}, {{ output.id }}-->
-        <!--{{ info.IMEI }}-->
-        <!--{{ info.SIM_Number }}-->
-        <!--{{ info.Added_On }}-->
-        <!--{{ info.Last_Reported_Date }}-->
-        <!--{{ info.Last_Reported_Time }}-->
-        <!--{{ info.Device_Status }}-->
-        <!--{{ info.Billing_Status }}-->
-        <!--{{ info.Comments }}-->
-    {% endfor %}
-{% endfor %}
+<div class="col-lg-12">
 
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Account </th>
+            <th scope="col">IMEI </th>
+            <th scope="col">SIM_Number </th>
+            <th scope="col">Added_On </th>
+            <th scope="col">Last_Reported_Date </th>
+            <th scope="col">Last_Reported_Time </th>
+            <th scope="col">Device_Status </th>
+            <th scope="col">Billing_Status </th>
+            <th scope="col">Comments </th>
+        </tr>
+        </thead>
+        {% for account in response %}
+        <tbody>
+            {% if account.Device %}
+                {% for info in output.Device %}
+                    <tr>
+                        <th scope="row">{{ account.Account }}, {{ account.id }}</th>
+                        <td>{{ info.IMEI }}</td>
+                        <td>{{ info.SIM_Number }}</td>
+                        <td>{{ info.Added_On }}</td>
+                        <td>{{ info.Last_Reported_Date }}</td>
+                        <td>{{ info.Last_Reported_Time }}</td>
+                        <td>{{ info.Device_Status }}</td>
+                        <td>{{ info.Billing_Status }}</td>
+                        <td>{{ info.Comments }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+               <th scope="row">{{ account.Account }}, {{ account.id }}</th>
+                <td>No IMEI </td>
+                <td>No SIM_Number</td>
+                <td>No Added_On</td>
+                <td>No Last_Reported_Date</td>
+                <td>No Last_Reported_Time</td>
+                <td>No Device_Status</td>
+                <td>No Billing_Status</td>
+                <td>No Comments</td>
+            {% endif %}
+        </tbody>
+        {% endfor %}
+    </table>
+</div>
 {% endblock %}

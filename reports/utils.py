@@ -27,7 +27,6 @@ def return_device_dict(account_key):
 def return_device_info(account_key):
     device_info = DeviceRegister.objects.filter(account_id=account_key)
     device_details = return_device_dict(account_key)
-    print(device_details)
     if device_info:
         for device in device_info:
             print('test2')
@@ -44,6 +43,7 @@ def return_device_info(account_key):
                 'Billing_Status': device.billing_status,
                 'Comments': device.comments.replace("\r\n", " "),
             })
+    print(device_details)
     return device_details
 
 
