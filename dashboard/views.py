@@ -1,3 +1,6 @@
+import pprint
+
+from django.http import HttpResponse
 from django.shortcuts import render
 
 from .utils import get_all_devices
@@ -13,5 +16,8 @@ def all_device_info(request):
     return render(request, 'dashboard.html', {'response': response})
 
 
-def not_reported_for_two_days():
+def not_reported_for_two_days(request):
+    # response = get_all_devices()
+    # pprint.pprint(response)
+    # return HttpResponse(response)
     pass

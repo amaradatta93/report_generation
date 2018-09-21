@@ -63,17 +63,22 @@ def return_device_info(account_key):
                 'Billing_Status': device.billing_status,
                 'Comments': device.comments.replace("\r\n", " "),
             })
-        return device_details
     except Exception as e:
         print(e)
         return return_device_dict(account_key)
+    return device_details
 
 
 def date_and_time(device_imei):
     '''
     Check the last reported date using the IMEI of the device
+    If not found then returns unknown
     :param device_imei: The IMEI corresponding to the device
     :return: Last reported date and time as a list
     '''
-    device_info = get_object_or_404(DeviceDataView, imei=device_imei)
-    return [device_info.date_stamp, device_info.time_stamp]
+    device_info = DeviceDataView.objects.filter(imei=device_imei)
+    if device_info:
+        for device_dt in device_info:
+            return [device_dt.date_stamp, device_dt.time_stamp]
+    else:
+        return ['Unknown', 'Unknown']
