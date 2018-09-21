@@ -4,16 +4,30 @@ from .models import *
 
 
 def get_all_account():
+    '''
+    Get all the accounts in the database
+    :return: List of all the accounts
+    '''
     all_accounts = Account.objects.all()
     return all_accounts
 
 
 def get_account_name(account_key):
+    '''
+    Get the account name using the account_id
+    :param account_key: The account_id linked to the account
+    :return: The account_name corresponding to the account_id
+    '''
     account_details = get_object_or_404(Account, account_id=account_key)
     return account_details.account_name
 
 
 def return_device_dict(account_key):
+    '''
+    With the account_id extract the name associated with the account
+    :param account_key: The account_id linked to the account
+    :return: account_name, account_id and the empty device list as dictionary
+    '''
     name = get_account_name(account_key)
     output = {
         'Account': name,
@@ -24,6 +38,14 @@ def return_device_dict(account_key):
 
 
 def return_device_info(account_key):
+    '''
+    With the account_id extract the device health
+    From return_device_dict() obtain the dictionary containing the name
+    Append all the devices under that account into the empty device list
+    Get the last reported date and time form date_and_time()
+    :param account_key: The account_id linked to the account
+    :return: name, id and the device list information as a dictionary
+    '''
     device_info = DeviceRegister.objects.filter(account_id=account_key)
     device_details = return_device_dict(account_key)
     try:
@@ -48,5 +70,10 @@ def return_device_info(account_key):
 
 
 def date_and_time(device_imei):
+    '''
+    Check the last reported date using the IMEI of the device
+    :param device_imei: The IMEI corresponding to the device
+    :return: Last reported date and time as a list
+    '''
     device_info = get_object_or_404(DeviceDataView, imei=device_imei)
     return [device_info.date_stamp, device_info.time_stamp]

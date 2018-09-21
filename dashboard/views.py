@@ -1,12 +1,17 @@
 from django.shortcuts import render
 
-from reports.utils import get_all_account, return_device_info
+from .utils import get_all_devices
 
 
 def all_device_info(request):
-    response = []
-    all_accounts = get_all_account()
-    for account in all_accounts:
-        key = account.account_id
-        response.append(return_device_info(key))
+    '''
+    Obtain all the device information and render it on the dashboard
+    :param request:
+    :return: list of devices as dictionary
+    '''
+    response = get_all_devices()
     return render(request, 'dashboard.html', {'response': response})
+
+
+def not_reported_for_two_days():
+    pass
