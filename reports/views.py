@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from .utils import return_device_info
+from .utils import return_device_info, get_account_info
 
 
 def account_device_info(request, account_key=None):
@@ -12,3 +12,8 @@ def account_device_info(request, account_key=None):
     '''
     output = return_device_info(account_key)
     return render(request, 'account_device.html', {'output': output})
+
+
+def account_contact(request, account_key):
+    account_info = get_account_info(account_key)
+    return render(request, 'account_information.html', {'account_info': account_info})

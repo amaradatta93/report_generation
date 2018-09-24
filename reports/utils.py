@@ -12,14 +12,22 @@ def get_all_account():
     return all_accounts
 
 
-def get_account_name(account_key):
+def get_account_info(account_key):
     '''
     Get the account name using the account_id
     :param account_key: The account_id linked to the account
     :return: The account_name corresponding to the account_id
     '''
     account_details = get_object_or_404(Account, account_id=account_key)
-    return account_details.account_name
+    account_info = {
+        'Name': account_details.account_name,
+        'Address': account_details.account_address,
+        'PhoneNumber': account_details.account_phone,
+        'Comments': account_details.comments,
+        'API_Key': account_details.api_key,
+        'HOS_Key': account_details.hos_key,
+    }
+    return account_info
 
 
 def return_device_dict(account_key):
@@ -28,7 +36,7 @@ def return_device_dict(account_key):
     :param account_key: The account_id linked to the account
     :return: account_name, account_id and the empty device list as dictionary
     '''
-    name = get_account_name(account_key)
+    name = get_account_info(account_key)['Name']
     output = {
         'Account': name,
         'id': account_key,
@@ -74,7 +82,8 @@ def date_and_time(device_imei):
     Check the last reported date using the IMEI of the device
     If not found then returns unknown
     :param device_imei: The IMEI corresponding to the device
-    :return: Last reported date and time as a list
+    :return: Last reported date and time in a list.
+             If both are not found 'Unknown' is returned
     '''
     device_info = DeviceDataView.objects.filter(imei=device_imei)
     if device_info:
