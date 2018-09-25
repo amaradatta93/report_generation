@@ -23,8 +23,8 @@ def not_reported_for_two_days(request):
     for device_info in output:
         for dates in device_info['Device']:
             date_str = dates['Last_Reported_Date']
-            print(type(date_str))
+            print('day is now {0}'.format(date_str))
             if date_str != 'Unknown':
                 date_format = convert_time_str_to_date_fromat(date_str)
-            print(type(date_format))
+                print(date_format)
     return HttpResponse(output)
