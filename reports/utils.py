@@ -1,3 +1,5 @@
+import pprint
+
 from django.shortcuts import get_object_or_404
 
 from .models import *
@@ -58,15 +60,10 @@ def return_device_info(account_key):
     device_details = return_device_dict(account_key)
     try:
         for device in device_info:
-            date_time = date_and_time(device.imei)
-            device_date = date_time[0]
-            device_time = date_time[1]
             device_details['Device'].append({
                 'IMEI': device.imei,
                 'SIM_Number': device.sim_no,
                 'Added_On': device.added_on,
-                'Last_Reported_Date': device_date,
-                'Last_Reported_Time': device_time,
                 'Device_Status': device.device_status,
                 'Billing_Status': device.billing_status,
                 'Comments': device.comments.replace("\r\n", " "),
@@ -74,6 +71,22 @@ def return_device_info(account_key):
     except Exception as e:
         print(e)
         return return_device_dict(account_key)
+    return device_details
+
+
+def return_device_info_with_date_time(account_key):
+    '''
+    Takes the device info and adds the last reported date and time
+    :param account_key: The account_id linked to the account
+    :return: device info with last reported date and time
+    '''
+    device_details = return_device_info(account_key)
+    pprint.pprint(device_details)
+    for device in device_details['Device']:
+        date_time = date_and_time(device['IMEI'])
+        device['Last_Reported_Date'] = date_time[0]
+        device['Last_Reported_Time'] = date_time[1]
+    pprint.pprint(device_details)
     return device_details
 
 

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from .utils import return_device_info, get_account_info
+from .utils import get_account_info, return_device_info_with_date_time
 
 
 def account_device_info(request, account_key=None):
@@ -10,7 +10,7 @@ def account_device_info(request, account_key=None):
     :param account_key: The account_id linked to the account
     :return: Device information of that particular account, as dictionary
     '''
-    output = return_device_info(account_key)
+    output = return_device_info_with_date_time(account_key)
     return render(request, 'account_device.html', {'output': output})
 
 

@@ -19,5 +19,6 @@ def get_all_devices():
 def convert_time_str_to_date_fromat(date_str):
     date_format = datetime.datetime.strptime(date_str, '%d.%m.%Y')
     # two_days_back = datetime.date.today() - datetime.timedelta(days=2)
-    two_days_back = date_format - datetime.timedelta(days=2)
-    return two_days_back.strftime("%d.%m.%Y")
+    # two_days_back = date_format - datetime.timedelta(days=2)
+    # return two_days_back.strftime("%d.%m.%Y")
+    return date_format
