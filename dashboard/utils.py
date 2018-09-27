@@ -1,6 +1,6 @@
 import datetime
 
-from reports.utils import get_all_account, return_device_info
+from reports.utils import get_all_account, return_device_info_with_date_time
 
 
 def get_all_devices():
@@ -12,7 +12,7 @@ def get_all_devices():
     all_accounts = get_all_account()
     for account in all_accounts:
         key = account.account_id
-        response.append(return_device_info(key))
+        response.append(return_device_info_with_date_time(key))
     return response
 
 
