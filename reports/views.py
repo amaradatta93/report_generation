@@ -1,3 +1,5 @@
+import pprint
+
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
 
@@ -6,13 +8,15 @@ from .utils import get_account_info, return_device_info, return_all_imei
 
 def account_device_info(request, account_key=None):
     api_key = get_account_info(account_key).api_key
+    name = get_account_info(account_key).account_name
     print(api_key)
     output = []
     imei_list = return_all_imei(account_key)
     for imei in imei_list:
         output.append(return_device_info(api_key, imei))
-    return HttpResponse(output)
-    # return render(request, 'account_device.html', {'output': output})
+    pprint.pprint(output)
+    # return JsonResponse({'output': output, 'name': name})
+    return render(request, 'account_device.html', {'output': output, 'name': name})
 
 
 def account_contact(request, account_key):

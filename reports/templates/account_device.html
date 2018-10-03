@@ -14,30 +14,32 @@
                 <th scope="col">Last_Reported_Date </th>
                 <th scope="col">Last_Reported_Time </th>
                 <th scope="col">Device_Status </th>
+                <th scope="col">Device_Health </th>
                 <th scope="col">Billing_Status </th>
                 <th scope="col">Comments </th>
             </tr>
         </thead>
 
-        {% if output.Device %}
-            {% for info in output.Device %}
+        {% if output %}
+            {% for info in output %}
 
             <tbody>
                 <tr>
-                    <th scope="row">{{ output.Account }}, {{ output.id }}</th>
-                    <td>{{ info.IMEI }}</td>
-                    <td>{{ info.SIM_Number }}</td>
-                    <td>{{ info.Added_On }}</td>
-                    <td>{{ info.Last_Reported_Date }}</td>
-                    <td>{{ info.Last_Reported_Time }}</td>
-                    <td>{{ info.Device_Status }}</td>
-                    <td>{{ info.Billing_Status }}</td>
-                    <td>{{ info.Comments }}</td>
+                    <th scope="row">{{ name }}</th>
+                    <td>{{ info.imei }}</td>
+                    <td>{{ info.sim_no }}</td>
+                    <td>{{ info.added_on }}</td>
+                    <td>{{ info.date }}</td>
+                    <td>{{ info.time }}</td>
+                    <td>{{ info.device_status }}</td>
+                    <td>{{ info.device_health }}</td>
+                    <td>{{ info.billing_status }}</td>
+                    <td>{{ info.comments }}</td>
                 </tr>
             {% endfor %}
         {% else %}
-                <th scope="row">{{ output.Account }}, {{ output.id }}</th>
-                <td>No IMEI </td>
+                <th scope="row">{{ name.name }}</th>
+                <td>No IMEI</td>
                 <td>No SIM_Number</td>
                 <td>No Added_On</td>
                 <td>No Last_Reported_Date</td>
