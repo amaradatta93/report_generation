@@ -1,7 +1,6 @@
-import pprint
+from django.shortcuts import get_object_or_404, get_list_or_404
 
-from django.shortcuts import get_object_or_404
-
+from .device_parsing import parse_response
 from .models import *
 
 
@@ -16,91 +15,36 @@ def get_all_account():
 
 def get_account_info(account_key):
     '''
-    Get the account name using the account_id
+    Get the account details using the account_id
     :param account_key: The account_id linked to the account
-    :return: The account_name corresponding to the account_id
+    :return: Complete account details as an object
     '''
     account_details = get_object_or_404(Account, account_id=account_key)
-    account_info = {
-        'Name': account_details.account_name,
-        'Address': account_details.account_address,
-        'PhoneNumber': account_details.account_phone,
-        'Comments': account_details.comments,
-        'API_Key': account_details.api_key,
-        'HOS_Key': account_details.hos_key,
-    }
-    return account_info
+    return account_details
 
 
-def return_device_dict(account_key):
-    '''
-    With the account_id extract the name associated with the account
-    :param account_key: The account_id linked to the account
-    :return: account_name, account_id and the empty device list as dictionary
-    '''
-    name = get_account_info(account_key)['Name']
-    output = {
-        'Account': name,
-        'id': account_key,
-        'Device': []
-    }
-    return output
+def return_all_imei(account_key):
+    account = get_list_or_404(DeviceRegister, account_id=account_key)
+    imei = [each_device.imei for each_device in account]
+    return imei
 
 
-def return_device_info(account_key):
-    '''
-    With the account_id extract the device health
-    From return_device_dict() obtain the dictionary containing the name
-    Append all the devices under that account into the empty device list
-    Get the last reported date and time form date_and_time()
-    :param account_key: The account_id linked to the account
-    :return: name, id and the device list information as a dictionary
-    '''
-    device_info = DeviceRegister.objects.filter(account_id=account_key)
-    device_details = return_device_dict(account_key)
+def return_device_info(api_key, imei):
+    response = parse_response(api_key, imei)
+    comment_billing = get_comment_and_billing_status(imei)
+    response['billing_status'] = comment_billing['billing_status']
+    response['comments'] = comment_billing['comments']
+    return response
+
+
+def get_comment_and_billing_status(IMEI):
+    comment_billing = {}
     try:
-        for device in device_info:
-            device_details['Device'].append({
-                'IMEI': device.imei,
-                'SIM_Number': device.sim_no,
-                'Added_On': device.added_on,
-                'Device_Status': device.device_status,
-                'Billing_Status': device.billing_status,
-                'Comments': device.comments.replace("\r\n", " "),
-            })
+        comment_billing_info = get_object_or_404(DeviceRegister, imei=IMEI)
+        comment_billing['billing_status'] = comment_billing_info.billing_status
+        comment_billing['comments'] = comment_billing_info.comments
     except Exception as e:
         print(e)
-        return return_device_dict(account_key)
-    return device_details
-
-
-def return_device_info_with_date_time(account_key):
-    '''
-    Takes the device info and adds the last reported date and time
-    :param account_key: The account_id linked to the account
-    :return: device info with last reported date and time
-    '''
-    device_details = return_device_info(account_key)
-    pprint.pprint(device_details)
-    for device in device_details['Device']:
-        date_time = date_and_time(device['IMEI'])
-        device['Last_Reported_Date'] = date_time[0]
-        device['Last_Reported_Time'] = date_time[1]
-    pprint.pprint(device_details)
-    return device_details
-
-
-def date_and_time(device_imei):
-    '''
-    Check the last reported date using the IMEI of the device
-    If not found then returns unknown
-    :param device_imei: The IMEI corresponding to the device
-    :return: Last reported date and time in a list.
-             If both are not found 'Unknown' is returned
-    '''
-    device_info = DeviceDataView.objects.filter(imei=device_imei)
-    if device_info:
-        for device_dt in device_info:
-            return [device_dt.date_stamp, device_dt.time_stamp]
-    else:
-        return ['Unknown', 'Unknown']
+        comment_billing['billing_status'] = None
+        comment_billing['comments'] = None
+    return comment_billing
