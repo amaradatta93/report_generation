@@ -18,21 +18,26 @@
             <th scope="col">Comments </th>
         </tr>
         </thead>
-        {% for account in response %}
+        {% for device in parsed_device_list %}
         <tbody>
-            {% if account.Device %}
-                {% for info in account.Device %}
-                    <tr>
-                        <th scope="row">{{ account.Account }}</th>
-                        <td>{{ info.IMEI }}</td>
-                        <td>{{ info.SIM_Number }}</td>
-                        <td>{{ info.Added_On }}</td>
-                        <td>{{ info.Last_Reported_Date }}</td>
-                        <td>{{ info.Last_Reported_Time }}</td>
-                        <td>{{ info.Device_Status }}</td>
-                        <td>{{ info.Billing_Status }}</td>
-                        <td>{{ info.Comments }}</td>
-                    </tr>
+            {% if device.account_devices %}
+               <!--<pre> {{ device }} </pre>-->
+                {% for info in device.account_device %}
+
+                    {% for each_info in info %}
+
+                        <tr>
+                            <th scope="row">{{ account.account_name }}</th>
+                            <td>{{ info.imei }}</td>
+                            <td>{{ info.sim_number }}</td>
+                            <td>{{ info.added_on }}</td>
+                            <td>{{ info.last_reported_date }}</td>
+                            <td>{{ info.last_reported_time }}</td>
+                            <td>{{ info.device_status }}</td>
+                            <td>{{ info.billing_status }}</td>
+                            <!--<td>{{ info.comments }}</td>-->
+                        </tr>
+                    {% endfor %}
                 {% endfor %}
             {% endif %}
         </tbody>

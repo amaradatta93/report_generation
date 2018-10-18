@@ -1,6 +1,7 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 
-from .utils import get_all_devices
+from .utils import get_all_devices, parse_time_threshold
 
 
 def all_device_info(request):
@@ -10,8 +11,11 @@ def all_device_info(request):
     :return: list of devices as dictionary
     '''
     response = get_all_devices()
-    return render(request, 'dashboard.html', {'response': response})
+    # return render(request, 'dashboard.html', {'response': response})
+    return HttpResponse(response)
 
 
 def not_reported_for_two_days(request):
-    pass
+    parsed_device_list = parse_time_threshold()
+    # return HttpResponse(parsed_device_list)
+    return render(request, 'dashboard.html', {'parsed_device_list': parsed_device_list})
