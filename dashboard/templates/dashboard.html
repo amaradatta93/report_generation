@@ -15,32 +15,28 @@
             <th scope="col">Last_Reported_Time </th>
             <th scope="col">Device_Status </th>
             <th scope="col">Billing_Status </th>
-            <th scope="col">Comments </th>
         </tr>
         </thead>
-        {% for device in parsed_device_list %}
-        <tbody>
-            {% if device.account_devices %}
-               <!--<pre> {{ device }} </pre>-->
-                {% for info in device.account_device %}
+        {% for account in response %}
+            <tbody>
+                {% if account.account_devices %}
 
-                    {% for each_info in info %}
+                    {% for device in account.account_devices %}
 
                         <tr>
                             <th scope="row">{{ account.account_name }}</th>
-                            <td>{{ info.imei }}</td>
-                            <td>{{ info.sim_number }}</td>
-                            <td>{{ info.added_on }}</td>
-                            <td>{{ info.last_reported_date }}</td>
-                            <td>{{ info.last_reported_time }}</td>
-                            <td>{{ info.device_status }}</td>
-                            <td>{{ info.billing_status }}</td>
-                            <!--<td>{{ info.comments }}</td>-->
+                            <td>{{ device.imei }}</td>
+                            <td>{{ device.sim_number }}</td>
+                            <td>{{ device.added_on }}</td>
+                            <td>{{ device.last_reported_date }}</td>
+                            <td>{{ device.last_reported_time }}</td>
+                            <td>{{ device.device_status }}</td>
+                            <td>{{ device.billing_status }}</td>
                         </tr>
                     {% endfor %}
-                {% endfor %}
-            {% endif %}
-        </tbody>
+
+                {% endif %}
+            </tbody>
         {% endfor %}
     </table>
 </div>

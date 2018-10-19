@@ -20,12 +20,10 @@ def get_all_devices():
             {
                 'account_name': account.account_name,
                 'account_id': account.account_id,
-                'account_devices': return_device_info_with_date_time(key)
+                'account_devices': parsed_parameter(key)
             }
         )
-        # response.update({'account_name': account.account_name})
-        # response.update({'account_id': account.account_id})
-        # response.update({'account_devices': return_device_info_with_date_time(key)})
+    pprint.pprint(response)
     return response
 
 
@@ -37,43 +35,60 @@ def return_device_info_with_date_time(key):
             device_info_list = DeviceRegister.objects.filter(imei=account.imei)
 
             for device_info in device_info_list:
-                # try:
                 date_time = DeviceDataView.objects.get(imei=device_info.imei)
                 serialized_device_info = model_to_dict(device_info)
                 serialized_device_info.update({'Last_Reported_Date': date_time.date_stamp})
                 serialized_device_info.update({'Last_Reported_Time': date_time.time_stamp})
                 devices.append(serialized_device_info)
-                # except Exception as e:
-                #     print(e)
-                #     serialized_device_info['Last_Reported_Date'] = 'Unknown'
-                #     serialized_device_info['Last_Reported_Time'] = 'Unknown'
-                #     devices.append(serialized_device_info)
-
     except Exception as e:
         print(e)
     return devices
 
 
-def parse_time_threshold():
-    device_info = get_all_devices()
+def parse_time_threshold(key):
+    '''
+    Filter out the device which have device and billing status as Active and which have not
+    been reporting for set number of days
+    :param key: Account Id associated with the corresponding account
+    :return: List of device as dictionary which qualify the above criteria
+    '''
+    devices_list = return_device_info_with_date_time(key)
     parsed_device_list = []
 
-    pprint.pprint(device_info)
-    for devices in device_info:
-        if device_info:
-            # pprint.pprint(devices)
-            for each_device in devices['account_devices']:
-                try:
-                    date_time_obj = date_time_conversion(each_device['Last_Reported_Date'],
-                                                         each_device['Last_Reported_Time'])
-                    print('loop2')
-                    dt_check = threshold_days_back(date_time_obj, 10)
-                    if dt_check and ((each_device['device_status'] == 'Active') and (each_device['billing_status'] == 'Active')):
-                        # print(devices['Last_reported_date'], devices['Last_reported_time'], devices['Device_Status'], devices['Billing_Status'])
-                        parsed_device_list.append(devices)
-                except KeyError:
-                    devices.update({'Last_Reported_Date': 'not found'})
-                    devices.update({'Last_Reported_Time': 'not found'})
-                    parsed_device_list.append(devices)
-    # pprint.pprint(parsed_device_list)
+    for each_device in devices_list:
+        try:
+            date_time_obj = date_time_conversion(each_device['Last_Reported_Date'],
+                                                 each_device['Last_Reported_Time'])
+            dt_check = threshold_days_back(date_time_obj, 10)
+            if dt_check and (
+                    (each_device['device_status'] == 'Active') and (each_device['billing_status'] == 'Active')):
+                parsed_device_list.append(each_device)
+        except KeyError:
+            each_device.update({'Last_Reported_Date': 'not found'})
+            each_device.update({'Last_Reported_Time': 'not found'})
+            parsed_device_list.append(each_device)
     return parsed_device_list
+
+
+def parsed_parameter(key):
+    '''
+    Filter out all the unnecessary dictionary parameters
+    :param key: Account Id associated with the corresponding account
+    :return:List of device as dictionary with desired parameters
+    '''
+    parsed_device_list = parse_time_threshold(key)
+
+    parsed_parameter_list = []
+    for each_device in parsed_device_list:
+        parsed_parameter_list.append(
+            {
+                'imei': each_device['imei'],
+                'sim_number': each_device['sim_no'],
+                'added_on': each_device['added_on'],
+                'last_reported_date': each_device['Last_Reported_Date'],
+                'last_reported_time': each_device['Last_Reported_Time'],
+                'device_status': each_device['device_status'],
+                'billing_status': each_device['billing_status'],
+            }
+        )
+    return parsed_parameter_list
