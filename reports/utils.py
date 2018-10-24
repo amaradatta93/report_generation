@@ -1,50 +1,22 @@
-from django.shortcuts import get_object_or_404, get_list_or_404
+import pprint
 
-from .device_parsing import parse_response
-from .models import *
+from dashboard.utils import get_account_details, parsed_parameter
 
 
-def get_all_account():
+def get_all_devices_for_account(key):
     '''
-    Get all the accounts in the database
-    :return: List of all the accounts
+    get all accounts, account id and the devices in the account
+    :param key: Account Id associated with the corresponding account
+    :return: list of devices with the device information in it
     '''
-    all_accounts = Account.objects.all()
-    return all_accounts
-
-
-def get_account_info(account_key):
-    '''
-    Get the account details using the account_id
-    :param account_key: The account_id linked to the account
-    :return: Complete account details as an object
-    '''
-    account_details = get_object_or_404(Account, account_id=account_key)
-    return account_details
-
-
-def return_all_imei(account_key):
-    account = get_list_or_404(DeviceRegister, account_id=account_key)
-    imei = [each_device.imei for each_device in account]
-    return imei
-
-
-def return_device_info(api_key, imei):
-    response = parse_response(api_key, imei)
-    comment_billing = get_comment_and_billing_status(imei)
-    response['billing_status'] = comment_billing['billing_status']
-    response['comments'] = comment_billing['comments']
+    response = []
+    account = get_account_details(key)
+    key = account.account_id
+    response.append(
+        {
+            'account_name': account.account_name,
+            'account_id': account.account_id,
+            'account_devices': parsed_parameter(key)
+        }
+    )
     return response
-
-
-def get_comment_and_billing_status(IMEI):
-    comment_billing = {}
-    try:
-        comment_billing_info = get_object_or_404(DeviceRegister, imei=IMEI)
-        comment_billing['billing_status'] = comment_billing_info.billing_status
-        comment_billing['comments'] = comment_billing_info.comments
-    except Exception as e:
-        print(e)
-        comment_billing['billing_status'] = None
-        comment_billing['comments'] = None
-    return comment_billing

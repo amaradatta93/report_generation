@@ -2,9 +2,18 @@ import pprint
 
 from django.forms import model_to_dict
 
-from reports.models import DeviceRegister, DeviceDataView
-from reports.utils import get_all_account
+from .models import DeviceRegister, DeviceDataView, Account
 from .parse_time_and_parameter import date_time_conversion, threshold_days_back
+
+
+def get_account_details(key):
+    '''
+    Get a specific account using the id associated with it
+    :param key: Account Id associated with the corresponding account
+    :return: The account object
+    '''
+    account = Account.objects.get(account_id=key)
+    return account
 
 
 def get_all_devices():
@@ -13,7 +22,7 @@ def get_all_devices():
     :return: list of devices with the device information in it
     '''
     response = []
-    all_accounts = get_all_account()
+    all_accounts = Account.objects.all()
     for account in all_accounts:
         key = account.account_id
         response.append(
@@ -28,6 +37,12 @@ def get_all_devices():
 
 
 def return_device_info_with_date_time(key):
+    '''
+    For all the device include a field indicating the last reported date
+    and time of the devices
+    :param key: Account Id associated with the corresponding account
+    :return:
+    '''
     devices = []
     try:
         account_list = DeviceRegister.objects.filter(account_id=key)
@@ -59,7 +74,7 @@ def parse_time_threshold(key):
         try:
             date_time_obj = date_time_conversion(each_device['Last_Reported_Date'],
                                                  each_device['Last_Reported_Time'])
-            dt_check = threshold_days_back(date_time_obj, 10)
+            dt_check = threshold_days_back(date_time_obj, 7)
             if dt_check and (
                     (each_device['device_status'] == 'Active') and (each_device['billing_status'] == 'Active')):
                 parsed_device_list.append(each_device)
