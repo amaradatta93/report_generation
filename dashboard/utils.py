@@ -2,7 +2,7 @@ import pprint
 
 from django.forms import model_to_dict
 
-from .models import DeviceRegister, DeviceDataView, Account
+from .models import DeviceRegister, DeviceDataView, Account, ParentAccount
 from .parse_time_and_parameter import date_time_conversion, threshold_days_back
 
 
@@ -14,6 +14,22 @@ def get_account_details(key):
     '''
     account = Account.objects.get(account_id=key)
     return account
+
+
+def get_all_parent_accounts():
+    '''
+    get all accounts details
+    :return: All accounts as an object
+    '''
+    parent_accounts = ParentAccount.objects.all()
+    parent_account_id = {key.parent_account_id for key in parent_accounts}
+    return parent_account_id
+
+
+def get_all_children_accounts(parent_key):
+    children_accounts = ParentAccount.objects.filter(parent_account_id=parent_key)
+    children_account_id = {key.account_id for key in children_accounts}
+    return children_account_id
 
 
 def get_all_devices():
@@ -102,8 +118,6 @@ def parsed_parameter(key):
                 'added_on': each_device['added_on'],
                 'last_reported_date': each_device['Last_Reported_Date'],
                 'last_reported_time': each_device['Last_Reported_Time'],
-                'device_status': each_device['device_status'],
-                'billing_status': each_device['billing_status'],
             }
         )
     return parsed_parameter_list

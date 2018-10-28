@@ -13,8 +13,6 @@
             <th scope="col">Added_On </th>
             <th scope="col">Last_Reported_Date </th>
             <th scope="col">Last_Reported_Time </th>
-            <th scope="col">Device_Status </th>
-            <th scope="col">Billing_Status </th>
         </tr>
         </thead>
         {% for account in response %}
@@ -30,8 +28,6 @@
                             <td>{{ device.added_on }}</td>
                             <td>{{ device.last_reported_date }}</td>
                             <td>{{ device.last_reported_time }}</td>
-                            <td>{{ device.device_status }}</td>
-                            <td>{{ device.billing_status }}</td>
                         </tr>
                     {% endfor %}
 
