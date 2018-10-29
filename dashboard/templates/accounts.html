@@ -11,40 +11,43 @@
                 <th scope="col"> Child Accounts</th>
             </tr>
             </thead>
+
+            <tbody>
+            <tr>
+                <th scope="row">
+                    <a href="{% url 'dashboard:unresponsive' %}"> All Unresponsive devices </a>
+                </th>
+                <td>Click to view all the unresponsive devices</td>
+            </tr>
+
             {% for account in all_accounts %}
             {% if account.children %}
-            <tbody>
+
             <tr>
                 <th scope="row" rowspan="{{ account.list_length }}">
                     <a href="{% url 'reports:unresponsive' account_key=account.id %}">{{ account.name }}</a>
                 </th>
                 {% for child in account.children %}
-                <tr>
-                    <td>
-                        <a href="{% url 'reports:unresponsive' account_key=child.account_id %}">{{ child.account_name }}
-                    </td>
+            <tr>
+                <td>
+                    <a href="{% url 'reports:unresponsive' account_key=child.account_id %}">{{ child.account_name }} </a>
+                </td>
                 {% endfor %}
-                </tr>
+            </tr>
             </tr>
             </tbody>
 
             {% elif not account.children %}
-            <tbody>
-            <tr>
-                {% ifequal account.name 'Infospectrum' %}
-                <th scope="row">
-                    <a href="{% url 'dashboard:unresponsive' %}">{{ account.name }}</a>
-                </th>
-                <td>Click to view all the unresponsive devices </td>
-                {% endifequal %}
-                {% ifnotequal account.name 'Infospectrum' %}
-                <th scope="row">
-                    <a href="{% url 'reports:unresponsive' account_key=account.id %}">{{ account.name }}</a>
-                </th>
-                <td>No Child account</td>
-                {% endifnotequal %}
-            </tr>
-            </tbody>
+                {% if account.name %}
+                <tbody>
+                <tr>
+                    <th scope="row">
+                        <a href="{% url 'reports:unresponsive' account_key=account.id %}">{{ account.name }}</a>
+                    </th>
+                    <td>No Child account</td>
+                </tr>
+                </tbody>
+                {% endif %}
             {% endif %}
             {% endfor %}
         </table>

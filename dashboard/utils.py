@@ -21,9 +21,9 @@ def get_all_parent_accounts():
     get all accounts details
     :return: All accounts as an object
     '''
-    parent_accounts = ParentAccount.objects.all()
-    parent_account_id = {key.parent_account_id for key in parent_accounts}
-    return parent_account_id
+    parent_accounts = ParentAccount.objects.filter(parent_account_id=1)
+    parent_id = [key.account_id for key in parent_accounts]
+    return parent_id
 
 
 def get_all_children_accounts(parent_key):
