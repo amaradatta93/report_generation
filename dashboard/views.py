@@ -6,21 +6,26 @@ from .utils import get_all_devices, get_all_parent_accounts, get_account_details
 
 
 def show_all_accounts(request):
-    parents_account_ID = get_all_parent_accounts()
+    parents_account_id = get_all_parent_accounts()
     all_accounts = []
-    for parent_key in parents_account_ID:
+    for parent_key in parents_account_id:
+        parent_name = get_account_details(parent_key).account_name
         try:
+            children_account = [get_account_details(child_key).account_name for child_key in
+                                get_all_children_accounts(parent_key)]
             all_accounts.append({
-                'name': get_account_details(parent_key).account_name,
+                'name': parent_name,
+                'toggle_id': parent_name.replace(" ", "-"),
                 'id': parent_key,
-                'children': [get_account_details(child_key).account_name for child_key in
-                             get_all_children_accounts(parent_key)]
+                'children': children_account,
+                'list_length': len(children_account) + 1,
             })
         except Exception as e:
             all_accounts.append({
-                'name': get_account_details(parent_key).account_name,
+                'name': parent_name,
+                'toggle_id': parent_name.replace(" ", "-"),
                 'id': parent_key,
-                'children': ['No Account']
+                'children': None
             })
             print(e)
     pprint.pprint(all_accounts)
