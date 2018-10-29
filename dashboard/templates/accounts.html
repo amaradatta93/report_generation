@@ -31,10 +31,18 @@
             {% elif not account.children %}
             <tbody>
             <tr>
+                {% ifequal account.name 'Infospectrum' %}
+                <th scope="row">
+                    <a href="{% url 'dashboard:unresponsive' %}">{{ account.name }}</a>
+                </th>
+                <td>Click to view all the unresponsive devices </td>
+                {% endifequal %}
+                {% ifnotequal account.name 'Infospectrum' %}
                 <th scope="row">
                     <a href="{% url 'reports:unresponsive' account_key=account.id %}">{{ account.name }}</a>
                 </th>
                 <td>No Child account</td>
+                {% endifnotequal %}
             </tr>
             </tbody>
             {% endif %}
