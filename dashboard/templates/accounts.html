@@ -15,10 +15,14 @@
             {% if account.children %}
             <tbody>
             <tr>
-                <th scope="row" rowspan="{{ account.list_length }}">{{ account.name }}</th>
+                <th scope="row" rowspan="{{ account.list_length }}">
+                    <a href="{% url 'reports:unresponsive' account_key=account.id %}">{{ account.name }}</a>
+                </th>
                 {% for child in account.children %}
                 <tr>
-                    <td>{{ child }}</td>
+                    <td>
+                        <a href="{% url 'reports:unresponsive' account_key=child.account_id %}">{{ child.account_name }}
+                    </td>
                 {% endfor %}
                 </tr>
             </tr>
@@ -27,7 +31,9 @@
             {% elif not account.children %}
             <tbody>
             <tr>
-                <th scope="row">{{ account.name }}</th>
+                <th scope="row">
+                    <a href="{% url 'reports:unresponsive' account_key=account.id %}">{{ account.name }}</a>
+                </th>
                 <td>No Child account</td>
             </tr>
             </tbody>

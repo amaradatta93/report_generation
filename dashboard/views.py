@@ -11,7 +11,7 @@ def show_all_accounts(request):
     for parent_key in parents_account_id:
         parent_name = get_account_details(parent_key).account_name
         try:
-            children_account = [get_account_details(child_key).account_name for child_key in
+            children_account = [get_account_details(child_key) for child_key in
                                 get_all_children_accounts(parent_key)]
             all_accounts.append({
                 'name': parent_name,
