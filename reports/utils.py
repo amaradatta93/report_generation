@@ -1,5 +1,3 @@
-import pprint
-
 from dashboard.utils import get_account_details, parsed_parameter
 
 
