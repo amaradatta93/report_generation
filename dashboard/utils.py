@@ -28,7 +28,7 @@ def get_all_parent_accounts():
 
 def get_all_children_accounts(parent_key):
     children_accounts = ParentAccount.objects.filter(parent_account_id=parent_key)
-    children_account_id = {key.account_id for key in children_accounts}
+    children_account_id = [key.account_id for key in children_accounts]
     return children_account_id
 
 
