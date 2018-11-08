@@ -30,7 +30,8 @@
                 {% for child in account.children %}
             <tr>
                 <td>
-                    <a href="{% url 'reports:unresponsive' account_key=child.account_id %}">{{ child.account_name }} </a>
+                    <a href="{% url 'reports:unresponsive' account_key=child.account_id %}">
+                        {{ child.account_name }} </a>
                 </td>
                 {% endfor %}
             </tr>
@@ -38,16 +39,16 @@
             </tbody>
 
             {% elif not account.children %}
-                {% if account.name %}
-                <tbody>
-                <tr>
-                    <th scope="row">
-                        <a href="{% url 'reports:unresponsive' account_key=account.id %}">{{ account.name }}</a>
-                    </th>
-                    <td>No Child account</td>
-                </tr>
-                </tbody>
-                {% endif %}
+            {% if account.name %}
+            <tbody>
+            <tr>
+                <th scope="row">
+                    <a href="{% url 'reports:unresponsive' account_key=account.id %}">{{ account.name }}</a>
+                </th>
+                <td>No Child account</td>
+            </tr>
+            </tbody>
+            {% endif %}
             {% endif %}
             {% endfor %}
         </table>

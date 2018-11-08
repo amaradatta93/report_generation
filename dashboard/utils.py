@@ -87,10 +87,11 @@ def parse_time_threshold(key):
     parsed_device_list = []
 
     for each_device in devices_list:
+        pprint.pprint(each_device)
         try:
             date_time_obj = date_time_conversion(each_device['Last_Reported_Date'],
                                                  each_device['Last_Reported_Time'])
-            dt_check = threshold_days_back(date_time_obj, 7)
+            dt_check = threshold_days_back(date_time_obj, 2)
             if dt_check and (
                     (each_device['device_status'] == 'Active') and (each_device['billing_status'] == 'Active')):
                 parsed_device_list.append(each_device)
