@@ -32,7 +32,7 @@ def get_all_children_accounts(parent_key):
     return children_account_id
 
 
-def get_all_devices():
+def get_all_devices(days):
     '''
     get all accounts, account id and the devices in the account
     :return: list of devices with the device information in it
@@ -45,10 +45,9 @@ def get_all_devices():
             {
                 'account_name': account.account_name,
                 'account_id': account.account_id,
-                'account_devices': parsed_parameter(key)
+                'account_devices': parsed_parameter(key, days)
             }
         )
-    pprint.pprint(response)
     return response
 
 
@@ -76,7 +75,7 @@ def return_device_info_with_date_time(key):
     return devices
 
 
-def parse_time_threshold(key):
+def parse_time_threshold(key, days_threshold):
     '''
     Filter out the device which have device and billing status as Active and which have not
     been reporting for set number of days
@@ -84,14 +83,18 @@ def parse_time_threshold(key):
     :return: List of device as dictionary which qualify the above criteria
     '''
     devices_list = return_device_info_with_date_time(key)
+
+    pprint.pprint(devices_list)
+
     parsed_device_list = []
 
+    print('The days are {}'.format(days_threshold))
+
     for each_device in devices_list:
-        pprint.pprint(each_device)
         try:
             date_time_obj = date_time_conversion(each_device['Last_Reported_Date'],
                                                  each_device['Last_Reported_Time'])
-            dt_check = threshold_days_back(date_time_obj, 2)
+            dt_check = threshold_days_back(date_time_obj, days_threshold)
             if dt_check and (
                     (each_device['device_status'] == 'Active') and (each_device['billing_status'] == 'Active')):
                 parsed_device_list.append(each_device)
@@ -102,13 +105,13 @@ def parse_time_threshold(key):
     return parsed_device_list
 
 
-def parsed_parameter(key):
+def parsed_parameter(key, days):
     '''
     Filter out all the unnecessary dictionary parameters
     :param key: Account Id associated with the corresponding account
     :return:List of device as dictionary with desired parameters
     '''
-    parsed_device_list = parse_time_threshold(key)
+    parsed_device_list = parse_time_threshold(key, days)
 
     parsed_parameter_list = []
     for each_device in parsed_device_list:
@@ -121,4 +124,5 @@ def parsed_parameter(key):
                 'last_reported_time': each_device['Last_Reported_Time'],
             }
         )
+    # pprint.pprint(parsed_parameter_list)
     return parsed_parameter_list

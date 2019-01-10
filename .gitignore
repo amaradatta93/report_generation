@@ -274,6 +274,6 @@ pip-selfcheck.json
 auth.sh
 
 database_TBox122_backup-20180101232348
-
+*.sql
 
 # End of https://www.gitignore.io/api/git,django,python,pycharm,virtualenv,pycharm+all
