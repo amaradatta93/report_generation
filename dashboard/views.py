@@ -1,6 +1,5 @@
 from django.shortcuts import render
 
-from get_days.views import pass_days
 from .utils import get_all_devices, get_all_parent_accounts, get_account_details, get_all_children_accounts
 
 
@@ -10,6 +9,7 @@ def show_all_accounts(request):
     :param request:
     :return: list of dictionary containing the child account
     '''
+
     parents_account_id = get_all_parent_accounts()
     all_accounts = []
     for parent_key in parents_account_id:
@@ -40,7 +40,7 @@ def not_reported_for_two_days(request):
     :param request:
     :return: list of devices as dictionary
     '''
-    days = pass_days()
-    print('i think the mistake is here {}'.format(days))
+
+    days = request.session['temp_data']
     response = get_all_devices(days)
     return render(request, 'dashboard.html', {'response': response})

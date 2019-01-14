@@ -2,7 +2,7 @@
 {% block content %}
 
 <div class="col-lg-12">
-    <form name="form" enctype="multipart/form-data" action="{% url 'dashboard:account_name' %}"
+    <form name="form" enctype="multipart/form-data" action="{% url 'get_days:count' %}"
           method="POST">
 
         {% csrf_token %}

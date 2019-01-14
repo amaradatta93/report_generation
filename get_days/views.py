@@ -1,6 +1,4 @@
-from django.shortcuts import render
-
-threshold = 0
+from django.shortcuts import render, redirect
 
 
 def days_html(request):
@@ -10,10 +8,10 @@ def days_html(request):
 def get_number_of_days(request):
     if request.method == 'POST':
         data_form = request.POST
-        days = data_form['numberOfDays']
-        threshold = days
-    return threshold
+        request.session['temp_data'] = data_form['numberOfDays']
 
-
-def pass_days():
-    return threshold
+        if data_form['numberOfDays']:
+            return redirect('/dashboard/')
+        else:
+            return redirect('/days/')
+    return redirect('/days/')

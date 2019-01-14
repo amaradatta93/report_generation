@@ -64,14 +64,22 @@ def return_device_info_with_date_time(key):
         for account in account_list:
             device_info_list = DeviceRegister.objects.filter(imei=account.imei)
 
+            print('IMEI is {}'.format(account.imei))
+
             for device_info in device_info_list:
-                date_time = DeviceDataView.objects.get(imei=device_info.imei)
-                serialized_device_info = model_to_dict(device_info)
-                serialized_device_info.update({'Last_Reported_Date': date_time.date_stamp})
-                serialized_device_info.update({'Last_Reported_Time': date_time.time_stamp})
-                devices.append(serialized_device_info)
+                try:
+                    date_time = DeviceDataView.objects.get(imei=device_info.imei)
+                    serialized_device_info = model_to_dict(device_info)
+                    serialized_device_info.update({'Last_Reported_Date': date_time.date_stamp})
+                    serialized_device_info.update({'Last_Reported_Time': date_time.time_stamp})
+                    devices.append(serialized_device_info)
+                except Exception as e:
+                    print(e)
+
     except Exception as e:
         print(e)
+
+    # pprint.pprint(devices)
     return devices
 
 
@@ -84,7 +92,7 @@ def parse_time_threshold(key, days_threshold):
     '''
     devices_list = return_device_info_with_date_time(key)
 
-    pprint.pprint(devices_list)
+    # pprint.pprint(devices_list)
 
     parsed_device_list = []
 
