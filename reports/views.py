@@ -12,7 +12,3 @@ def not_reported_for_two_days(request, account_key):
     days = request.session['temp_data']
     response = get_all_devices_for_account(account_key, days)
     return render(request, 'dashboard.html', {'response': response})
-
-
-# def print_report(request, account_key):
-#     csv_columns = ['Account_Name', 'IMEI', 'Device', 'Last_reported_date', 'Last_reported_time', 'Added_On', 'Asset_No']

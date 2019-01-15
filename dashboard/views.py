@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
-from .utils import get_all_devices, get_all_parent_accounts, get_account_details, get_all_children_accounts
+from reports.utils import get_account_details
+from .utils import get_all_devices, get_all_parent_accounts, get_all_children_accounts
 
 
 def show_all_accounts(request):
