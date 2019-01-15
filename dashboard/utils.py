@@ -2,7 +2,7 @@ import pprint
 
 from django.forms import model_to_dict
 
-from .models import DeviceRegister, DeviceDataView, Account, ParentAccount
+from .models import *
 from .parse_time_and_parameter import date_time_conversion, threshold_days_back
 
 
@@ -58,13 +58,12 @@ def return_device_info_with_date_time(key):
     :param key: Account Id associated with the corresponding account
     :return:
     '''
+
     devices = []
     try:
         account_list = DeviceRegister.objects.filter(account_id=key)
         for account in account_list:
             device_info_list = DeviceRegister.objects.filter(imei=account.imei)
-
-            print('IMEI is {}'.format(account.imei))
 
             for device_info in device_info_list:
                 try:
@@ -79,7 +78,6 @@ def return_device_info_with_date_time(key):
     except Exception as e:
         print(e)
 
-    # pprint.pprint(devices)
     return devices
 
 
@@ -90,13 +88,9 @@ def parse_time_threshold(key, days_threshold):
     :param key: Account Id associated with the corresponding account
     :return: List of device as dictionary which qualify the above criteria
     '''
+
     devices_list = return_device_info_with_date_time(key)
-
-    # pprint.pprint(devices_list)
-
     parsed_device_list = []
-
-    print('The days are {}'.format(days_threshold))
 
     for each_device in devices_list:
         try:
@@ -119,12 +113,15 @@ def parsed_parameter(key, days):
     :param key: Account Id associated with the corresponding account
     :return:List of device as dictionary with desired parameters
     '''
-    parsed_device_list = parse_time_threshold(key, days)
 
+    parsed_device_list = parse_time_threshold(key, days)
     parsed_parameter_list = []
+
     for each_device in parsed_device_list:
+        pprint.pprint(each_device)
         parsed_parameter_list.append(
             {
+                'device_name': get_device_name(each_device['device_type_id']),
                 'imei': each_device['imei'],
                 'sim_number': each_device['sim_no'],
                 'added_on': each_device['added_on'],
@@ -134,3 +131,8 @@ def parsed_parameter(key, days):
         )
     # pprint.pprint(parsed_parameter_list)
     return parsed_parameter_list
+
+
+def get_device_name(id):
+    device_name = DeviceType.objects.get(device_type_id=id)
+    return device_name.device_type

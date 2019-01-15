@@ -8,6 +8,7 @@
         <thead>
         <tr>
             <th scope="col">Account </th>
+            <th scope="col">Device </th>
             <th scope="col">IMEI </th>
             <th scope="col">SIM_Number </th>
             <th scope="col">Added_On </th>
@@ -23,6 +24,7 @@
 
                         <tr>
                             <th scope="row">{{ account.account_name }}</th>
+                            <td>{{ device.device_name }}</td>
                             <td>{{ device.imei }}</td>
                             <td>{{ device.sim_number }}</td>
                             <td>{{ device.added_on }}</td>
