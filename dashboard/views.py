@@ -1,4 +1,7 @@
-from django.shortcuts import render
+import pprint
+
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, redirect
 
 from reports.utils import get_account_details
 from .utils import get_all_devices, get_all_parent_accounts, get_all_children_accounts
@@ -45,3 +48,14 @@ def not_reported_for_two_days(request):
     days = request.session['temp_data']
     response = get_all_devices(days)
     return render(request, 'dashboard.html', {'response': response})
+
+
+def write_csv(request):
+    status = 'Failed'
+    if request.method == 'POST':
+        response = request.POST
+
+        pprint.pprint(response)
+        status = 'Success'
+
+    return render(request, 'download_complete.html', {'status': status})
