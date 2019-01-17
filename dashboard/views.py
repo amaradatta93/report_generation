@@ -1,7 +1,9 @@
+import csv
+import datetime
+import json
 import pprint
 
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 
 from reports.utils import get_account_details
 from .utils import get_all_devices, get_all_parent_accounts, get_all_children_accounts
@@ -53,9 +55,36 @@ def not_reported_for_two_days(request):
 def write_csv(request):
     status = 'Failed'
     if request.method == 'POST':
-        response = request.POST
+        response = dict(request.POST)
+        request_response = json.loads(response['downloadAsCsv'][0].replace("'", '"'))
+        threshold_days = request.session['temp_data']
 
-        pprint.pprint(response)
+        # column_names = ['Account_Name', 'IMEI', 'Device', 'Last_reported_date', 'Last_reported_time', 'Added_On',
+        #                'Asset_No']
+        csv_columns = ['account_name', 'device_name', 'imei', 'sim_number', 'last_reported_date', 'last_reported_time',
+                       'added_on']
+        csv_name = 'Unresponsive_device_' + str(datetime.datetime.now().date()) + '.csv'
+        print('The unresponsive device report is available in "{0}"'.format(csv_name))
+
+        try:
+            with open(csv_name, 'w') as csvfile:
+                description_text = 'Device which have not reported since or before last ' + threshold_days + ' days'
+                description = csv.writer(csvfile)
+                description.writerow([description_text])
+                writer = csv.DictWriter(csvfile, dialect='excel', fieldnames=csv_columns)
+                writer.writeheader()
+
+                for each_account_devices in request_response:
+                    device_list = each_account_devices['account_devices']
+
+                    if device_list:
+                        pprint.pprint(device_list)
+
+                        for each_device in device_list:
+                            each_device['account_name'] = each_account_devices['account_name']
+                            writer.writerow(each_device)
+        except IOError:
+            print("I/O error")
+
         status = 'Success'
-
     return render(request, 'download_complete.html', {'status': status})
