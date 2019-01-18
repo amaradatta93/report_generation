@@ -1,8 +1,8 @@
 import csv
 import datetime
 import json
-import pprint
 
+import pytz
 from django.shortcuts import render
 
 from reports.utils import get_account_details
@@ -59,11 +59,9 @@ def write_csv(request):
         request_response = json.loads(response['downloadAsCsv'][0].replace("'", '"'))
         threshold_days = request.session['temp_data']
 
-        # column_names = ['Account_Name', 'IMEI', 'Device', 'Last_reported_date', 'Last_reported_time', 'Added_On',
-        #                'Asset_No']
         csv_columns = ['account_name', 'device_name', 'imei', 'sim_number', 'last_reported_date', 'last_reported_time',
                        'added_on']
-        csv_name = 'Unresponsive_device_' + str(datetime.datetime.now().date()) + '.csv'
+        csv_name = 'Unresponsive_device_' + str(datetime.datetime.now(pytz.timezone('US/Pacific')).date()) + '.csv'
         print('The unresponsive device report is available in "{0}"'.format(csv_name))
 
         try:
@@ -78,8 +76,6 @@ def write_csv(request):
                     device_list = each_account_devices['account_devices']
 
                     if device_list:
-                        pprint.pprint(device_list)
-
                         for each_device in device_list:
                             each_device['account_name'] = each_account_devices['account_name']
                             writer.writerow(each_device)

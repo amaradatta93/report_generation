@@ -1,4 +1,5 @@
 import datetime
+import pytz
 
 
 def date_time_conversion(date_str, time_str):
@@ -19,7 +20,8 @@ def threshold_days_back(dt_obj, threshold_days):
     :param dt_obj: Date_Time object
     :return: Boolean True/False based on the time-delta
     '''
-    # now = datetime.datetime.strptime(datetime.datetime.now().strftime('%d.%m.%YT%H:%M:%S'), '%d.%m.%YT%H:%M:%S')
-    now = datetime.datetime.strptime(datetime.datetime.now().strftime('07.01.2019T00:00:00'), '%d.%m.%YT%H:%M:%S')
+    now = datetime.datetime.strptime(datetime.datetime.now(pytz.timezone('US/Pacific')).strftime('%d.%m.%YT%H:%M:%S'),
+                                     '%d.%m.%YT%H:%M:%S')
+    print(now)
     diff = now - dt_obj
     return diff.days > datetime.timedelta(days=int(threshold_days)).days
