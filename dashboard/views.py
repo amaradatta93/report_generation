@@ -53,6 +53,12 @@ def not_reported_for_two_days(request):
 
 
 def write_csv(request):
+    '''
+    Get the response from the dashboard and then convert the response into a csv file
+    and download it onto the local system
+    :param request:
+    :return: download the file to local system
+    '''
     status = 'Failed'
     if request.method == 'POST':
         response = dict(request.POST)

@@ -12,29 +12,37 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 
+import re
+
+MYSQL_URL_REGEX = re.compile(
+    r'^mysql:\/\/(?P<username>.*?):(?P<password>.*?)@(?P<host>.*?):(?P<port>\d+)/(?P<db>.*?)$')
+
+
+def get_mysql_settings(url):
+    matches = MYSQL_URL_REGEX.match(url)
+    return {
+        'name': matches.group('db'),
+        'username': matches.group('username'),
+        'password': matches.group('password'),
+        'host': matches.group('host'),
+        'port': matches.group('port')
+    }
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-from os.path import join
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
-DB_NAME = os.getenv('DB_NAME')
-DB_USER = os.getenv('DB_USER')
-DB_PASSWORD = os.getenv('DB_PASSWORD')
-DB_HOST = os.getenv('DB_HOST')
-DB_PORT = os.getenv('DB_PORT', '3306')
-
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -80,21 +88,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'report_generation.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+
+ms = get_mysql_settings(os.environ.get('DATABASE_URL'))
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': DB_NAME,
-        'USER': DB_USER,
-        'PASSWORD': DB_PASSWORD,
-        'HOST': DB_HOST,
-        'PORT': DB_PORT,
+        'NAME': ms['name'],
+        'USER': ms['username'],
+        'PASSWORD': ms['password'],
+        'HOST': ms['host'],
+        'PORT': ms['port'],
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -114,7 +122,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -127,7 +134,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
