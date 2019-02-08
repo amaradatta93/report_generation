@@ -20,7 +20,7 @@ app_name = 'main'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('days/', include('get_days.urls')),
+    path('', include('get_days.urls')),
     path('dashboard/', include('dashboard.urls', namespace='dashboard')),
     path('account/', include('reports.urls', namespace='reports')),
 ]

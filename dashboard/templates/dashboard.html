@@ -1,6 +1,5 @@
-{% extends 'base.html' %}
+{% extends 'index.html' %}
 {% block content %}
-
 
 <form name="form" enctype="application/x-www-form-urlencoded" action="{% url 'dashboard:download' %}"
           method="POST">
@@ -32,7 +31,9 @@
             <th scope="col">Last_Reported_Time </th>
         </tr>
         </thead>
+
         {% for account in response %}
+
             <tbody>
                 {% if account.account_devices %}
 
@@ -48,10 +49,13 @@
                             <td>{{ device.last_reported_time }}</td>
                         </tr>
                     {% endfor %}
-
                 {% endif %}
+
             </tbody>
         {% endfor %}
+
     </table>
+
 </div>
 {% endblock %}
+

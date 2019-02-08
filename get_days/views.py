@@ -11,7 +11,7 @@ def get_number_of_days(request):
         request.session['temp_data'] = data_form['numberOfDays']
 
         if data_form['numberOfDays']:
-            return redirect('/dashboard/')
+            return redirect('dashboard/')
         else:
-            return redirect('/days/')
-    return redirect('/days/')
+            return redirect('.')
+    return redirect('.')
