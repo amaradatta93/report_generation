@@ -41,9 +41,9 @@ PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['demo.infotrak.us', '64.150.187.61']
+ALLOWED_HOSTS = ['demo.infotrak.us', '64.150.187.61', 'localhost', '127.0.0.1']
 
 # Application definition
 
