@@ -51,7 +51,12 @@
         <tr>
             <th scope="row">{{ account.account_name }}</th>
             <td>{{ device.device_name }}</td>
-            <td>{{ device.imei }}</td>
+            <td>
+            {% csrf_token %}
+            <a href="{% url 'ota:send_command' %}?imei_number={{device.imei}}&device_name={{device.device_name}}">
+                {{ device.imei }}
+            </a>
+            </td>
             <td>{{ device.sim_number }}</td>
             <td>{{ device.added_on }}</td>
             <td>{{ device.last_reported_date }}</td>

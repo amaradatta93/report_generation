@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'reports.apps.ReportsConfig',
     'dashboard.apps.DashboardConfig',
     'get_days.apps.GetDaysConfig',
+    'ota.apps.OtaConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

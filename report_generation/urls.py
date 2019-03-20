@@ -23,4 +23,5 @@ urlpatterns = [
     path('', include('get_days.urls')),
     path('dashboard/', include('dashboard.urls', namespace='dashboard')),
     path('account/', include('reports.urls', namespace='reports')),
+    path('ota/', include('ota.urls', namespace='ota')),
 ]

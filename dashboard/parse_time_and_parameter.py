@@ -22,6 +22,5 @@ def threshold_days_back(dt_obj, threshold_days):
     '''
     now = datetime.datetime.strptime(datetime.datetime.now(pytz.timezone('US/Pacific')).strftime('%d.%m.%YT%H:%M:%S'),
                                      '%d.%m.%YT%H:%M:%S')
-    print(now)
     diff = now - dt_obj
     return diff.days > datetime.timedelta(days=int(threshold_days)).days
