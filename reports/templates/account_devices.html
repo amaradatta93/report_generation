@@ -44,6 +44,7 @@
             <th scope="col">Added_On</th>
             <th scope="col">Last_Reported_Date</th>
             <th scope="col">Last_Reported_Time</th>
+            <th scope="col">OTA Commands</th>
         </tr>
         </thead>
         {% for device in account.account_devices %}
@@ -51,16 +52,31 @@
         <tr>
             <th scope="row">{{ account.account_name }}</th>
             <td>{{ device.device_name }}</td>
-            <td>
-            {% csrf_token %}
-            <a href="{% url 'ota:send_command' %}?imei_number={{device.imei}}&device_name={{device.device_name}}">
-                {{ device.imei }}
-            </a>
-            </td>
+            <td>{{ device.imei }}</td>
             <td>{{ device.sim_number }}</td>
             <td>{{ device.added_on }}</td>
             <td>{{ device.last_reported_date }}</td>
             <td>{{ device.last_reported_time }}</td>
+            <td>
+                <div class="btn-group">
+                    <a href="{% url 'ota:reset' %}?imei_number={{device.imei}}&device_name={{device.device_name}}"
+                       class="btn btn-sm btn-outline-secondary"
+                       role="button">
+                        <i class="fa fa-sync-alt"></i> Reset
+                    </a>
+
+                    <a href="{% url 'ota:ping' %}?imei_number={{device.imei}}&device_name={{device.device_name}}"
+                       class="btn btn-sm btn-outline-secondary" role="button">
+                        <i class="fas fa-map-marker-alt"></i> Ping Device
+                    </a>
+
+                    <a href="{% url 'ota:apn' %}?imei_number={{device.imei}}&device_name={{device.device_name}}"
+                       class="btn btn-sm btn-outline-secondary" role="button">
+                        <i class="fas fa-wrench"></i> Set APN
+                    </a>
+
+                </div>
+            </td>
         </tr>
         {% endfor %}
         {% else %}

@@ -1,17 +1,25 @@
-<h1>Send Over the air command to the device</h1>
+{% extends 'index.html' %}
+{% block content %}
 
-{% if response.device_name == 'Ulbotech_JSPR_US' or response.device_name == 'Ulbotech_PODSYS_US' %}
-hello
-{% endif %}
+<div class="clo-lg-12">
+    <div class="row align-items-center justify-content-center ml-2">
+        <div class="col-lg">
+            <h1> Sent {{ status }} </h1>
+        </div>
+    </div>
 
-{% if response.device_name == 'Micron_Prime_1_PODSYS_US' %}
-hello
-{% endif %}
+    <div class="row align-items-center justify-content-center">
+        <div class="col-lg">
+            <a href="{% url 'dashboard:account_name' %}">
+                <button type="button" class="btn btn-info"> Go back to dashboard</button>
+            </a>
+        </div>
+        <div class="col-lg">
+            <a href="{% url 'get_days:days' %}">
+                <button type="button" class="btn btn-info"> Change number of days</button>
+            </a>
+        </div>
+    </div>
+</div>
 
-{% if response.device_name == 'Atrak_AX5_JSPR_US' or response.device_name == 'Atrak_AX5_PODSYS_US' %}
-hello
-{% endif %}
-
-{% if response.device_name == 'Queclink_GV500_JSPR_US' or response.device_name == 'Queclink_GV500_PODSYS_US' %}
-hello
-{% endif %}
+{% endblock %}
