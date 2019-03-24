@@ -18,7 +18,10 @@ def ping_device(request):
         'command': 'pinging'
     }
 
-    return HttpResponse(response.values())
+    if response['device_name'] == 'SteppIII_JSPR_US':
+        return HttpResponse(response.values())
+    else:
+        return HttpResponse('Ntothing')
 
 
 def set_device_apn(request):
