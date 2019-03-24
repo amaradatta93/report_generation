@@ -1,3 +1,8 @@
+import datetime
+
+import pytz
+
+
 def reset_command(imei, device):
     if 'Atrak_AX5' in device:
         command = 'AT$REST=1,7'
@@ -30,6 +35,12 @@ def reset_command(imei, device):
     else:
         command = 'Contact Infospectrum'
     return command
+
+
+def get_date_time_sent():
+    date_time = (
+        datetime.datetime.strftime(datetime.datetime.now(pytz.timezone('US/Pacific')), '%d.%m.%YT%H:%M:%S')).split('T')
+    return date_time[0], date_time[1]
 
 
 '''
