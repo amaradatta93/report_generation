@@ -18,10 +18,11 @@ def reset_device(request):
     reset_queue.time_stamp = time_sent
     reset_queue.command_status = 1
 
-    if reset_queue.save():
+    try:
+        reset_queue.save()
         return HttpResponse('Success')
-    else:
-        return HttpResponse('Try again')
+    except Exception as e:
+        return HttpResponse(e)
 
 
 def ping_device(request):
