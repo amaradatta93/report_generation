@@ -66,12 +66,12 @@
                                 <i class="fa fa-sync-alt"></i> Reset
                             </a>
 
-                            <a href="{% url 'ota:ping' %}?imei_number={{device.imei}}&device_name={{device.device_name}}"
+                            <a href="{% url 'ota:ping' %}?account_id={{account.account_id}}&imei_number={{device.imei}}&device_name={{device.device_name}}"
                                class="btn btn-sm btn-outline-secondary" role="button">
                                 <i class="fas fa-map-marker-alt"></i> Ping Device
                             </a>
 
-                            <a href="{% url 'ota:apn' %}?imei_number={{device.imei}}&device_name={{device.device_name}}"
+                            <a href="{% url 'ota:apn' %}?account_id={{account.account_id}}&imei_number={{device.imei}}&device_name={{device.device_name}}"
                                class="btn btn-sm btn-outline-secondary" role="button">
                                 <i class="fas fa-wrench"></i> Set APN
                             </a>
