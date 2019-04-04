@@ -26,7 +26,7 @@ def reset_device(request):
     except Exception as e:
         status = e
 
-    return render(request, 'ota_success.html', {'account_id': account_id, 'status': status})
+    return render(request, 'ota_success.html', {'account_id': account_id, 'status': status, 'command': 'Reset'})
 
 
 def ping_device(request):
