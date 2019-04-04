@@ -12,18 +12,21 @@ def reset_device(request):
     command = reset_command(imei_number, device_name)
     date_sent, time_sent = get_date_time_sent()
 
-    reset_queue = DeviceQueue()
-    reset_queue.imei = imei_number
-    reset_queue.command = command
-    reset_queue.date_stamp = date_sent
-    reset_queue.time_stamp = time_sent
-    reset_queue.command_status = 1
+    if command:
+        reset_queue = DeviceQueue()
+        reset_queue.imei = imei_number
+        reset_queue.command = command
+        reset_queue.date_stamp = date_sent
+        reset_queue.time_stamp = time_sent
+        reset_queue.command_status = 1
 
-    try:
-        reset_queue.save()
-        status = 'Success'
-    except Exception as e:
-        status = e
+        try:
+            reset_queue.save()
+            status = 'Success'
+        except Exception as e:
+            status = e
+    else:
+        status = ' - Contact infospectrum'
 
     return render(request, 'ota_success.html', {'account_id': account_id, 'status': status, 'command': 'Reset'})
 
@@ -36,18 +39,21 @@ def ping_device(request):
     command = ping_command(imei_number, device_name)
     date_sent, time_sent = get_date_time_sent()
 
-    reset_queue = DeviceQueue()
-    reset_queue.imei = imei_number
-    reset_queue.command = command
-    reset_queue.date_stamp = date_sent
-    reset_queue.time_stamp = time_sent
-    reset_queue.command_status = 1
+    if command:
+        reset_queue = DeviceQueue()
+        reset_queue.imei = imei_number
+        reset_queue.command = command
+        reset_queue.date_stamp = date_sent
+        reset_queue.time_stamp = time_sent
+        reset_queue.command_status = 1
 
-    try:
-        reset_queue.save()
-        status = 'Success'
-    except Exception as e:
-        status = e
+        try:
+            reset_queue.save()
+            status = 'Success'
+        except Exception as e:
+            status = e
+    else:
+        status = ' - Contact infospectrum'
 
     return render(request, 'ota_success.html', {'account_id': account_id, 'status': status, 'command': 'Ping'})
 
@@ -60,17 +66,20 @@ def set_device_apn(request):
     command = apn_command(imei_number, device_name)
     date_sent, time_sent = get_date_time_sent()
 
-    reset_queue = DeviceQueue()
-    reset_queue.imei = imei_number
-    reset_queue.command = command
-    reset_queue.date_stamp = date_sent
-    reset_queue.time_stamp = time_sent
-    reset_queue.command_status = 1
+    if command:
+        reset_queue = DeviceQueue()
+        reset_queue.imei = imei_number
+        reset_queue.command = command
+        reset_queue.date_stamp = date_sent
+        reset_queue.time_stamp = time_sent
+        reset_queue.command_status = 1
 
-    try:
-        reset_queue.save()
-        status = 'Success'
-    except Exception as e:
-        status = e
+        try:
+            reset_queue.save()
+            status = 'Success'
+        except Exception as e:
+            status = e
+    else:
+        status = ' - Contact infospectrum'
 
     return render(request, 'ota_success.html', {'account_id': account_id, 'status': status, 'command': 'APN'})
