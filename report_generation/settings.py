@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.sites',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -142,6 +143,3 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
-#TEMPLATE_DIRS = (PROJECT_PATH + '/templates/',)
-#'report_generation.reports.templates'
-# STATICFILES_DIRS = [os.path.join(APPS_DIR, 'static_files')]
