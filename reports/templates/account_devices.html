@@ -24,85 +24,85 @@
     {% endif%}
     {% endfor %}
 
-    <!--<div class="row justify-content-start align-items-center">-->
-    <!--<div class="col-md-12">-->
+    <div class="row justify-content-start align-items-center">
+        <div class="col-md-12 table-responsive">
 
-    <table class="table">
+            <table class="table">
 
-        {% if response %}
+                {% if response %}
 
-        {% for account in response %}
-
-
-        {% if account.account_devices %}
-        <thead>
-        <tr>
-            <th scope="col">Account</th>
-            <th scope="col">Device</th>
-            <th scope="col">IMEI</th>
-            <th scope="col">SIM_Number</th>
-            <th scope="col">Added_On</th>
-            <th scope="col">Last_Reported_Date</th>
-            <th scope="col">Last_Reported_Time</th>
-            <th scope="col">OTA Commands</th>
-        </tr>
-        </thead>
+                {% for account in response %}
 
 
-        {% for device in account.account_devices %}
-        <tbody>
+                {% if account.account_devices %}
+                <thead>
+                <tr>
+                    <th scope="col">Account</th>
+                    <th scope="col">Device</th>
+                    <th scope="col">IMEI</th>
+                    <th scope="col">SIM_Number</th>
+                    <th scope="col">Added_On</th>
+                    <th scope="col">Last_Reported_Date</th>
+                    <th scope="col">Last_Reported_Time</th>
+                    <th scope="col">OTA Commands</th>
+                </tr>
+                </thead>
 
-        <tr>
-            <th scope="row">{{ account.account_name }}</th>
-            <td>{{ device.device_name }}</td>
-            <td>{{ device.imei }}</td>
-            <td>{{ device.sim_number }}</td>
-            <td>{{ device.added_on }}</td>
-            <td>{{ device.last_reported_date }}</td>
-            <td>{{ device.last_reported_time }}</td>
-            <td>
-                <div class="btn-group">
-                    <a href="{% url 'ota:reset' %}?account_id={{account.account_id}}&imei_number={{device.imei}}&device_name={{device.device_name}}"
-                       class="btn btn-sm btn-outline-secondary"
-                       role="button">
-                        <i class="fa fa-sync-alt"></i> Reset
-                    </a>
 
-                    <a href="{% url 'ota:ping' %}?account_id={{account.account_id}}&imei_number={{device.imei}}&device_name={{device.device_name}}"
-                       class="btn btn-sm btn-outline-secondary" role="button">
-                        <i class="fas fa-map-marker-alt"></i> Ping Device
-                    </a>
+                {% for device in account.account_devices %}
+                <tbody>
 
-                    <a href="{% url 'ota:apn' %}?account_id={{account.account_id}}&imei_number={{device.imei}}&device_name={{device.device_name}}"
-                       class="btn btn-sm btn-outline-secondary" role="button">
-                        <i class="fas fa-wrench"></i> Set APN
-                    </a>
+                <tr>
+                    <th scope="row">{{ account.account_name }}</th>
+                    <td>{{ device.device_name }}</td>
+                    <td>{{ device.imei }}</td>
+                    <td>{{ device.sim_number }}</td>
+                    <td>{{ device.added_on }}</td>
+                    <td>{{ device.last_reported_date }}</td>
+                    <td>{{ device.last_reported_time }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="{% url 'ota:reset' %}?account_id={{account.account_id}}&imei_number={{device.imei}}&device_name={{device.device_name}}"
+                               class="btn btn-sm btn-outline-secondary"
+                               role="button">
+                                <i class="fa fa-sync-alt"></i> Reset
+                            </a>
 
-                </div>
-            </td>
-        </tr>
-        </tbody>
+                            <a href="{% url 'ota:ping' %}?account_id={{account.account_id}}&imei_number={{device.imei}}&device_name={{device.device_name}}"
+                               class="btn btn-sm btn-outline-secondary" role="button">
+                                <i class="fas fa-map-marker-alt"></i> Ping Device
+                            </a>
 
-        {% endfor %}
+                            <a href="{% url 'ota:apn' %}?account_id={{account.account_id}}&imei_number={{device.imei}}&device_name={{device.device_name}}"
+                               class="btn btn-sm btn-outline-secondary" role="button">
+                                <i class="fas fa-wrench"></i> Set APN
+                            </a>
 
-        {% else %}
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
 
-        <thead>
-        <tr>
-            <th align="center" scope="col">
-                <h1> Congratulation!! All your devices are reporting </h1>
-            </th>
-        </tr>
-        </thead>
+                {% endfor %}
 
-        {% endif %}
+                {% else %}
 
-        {% endfor %}
-        {% endif %}
-    </table>
+                <thead>
+                <tr>
+                    <th align="center" scope="col">
+                        <h1> Congratulation!! All your devices are reporting </h1>
+                    </th>
+                </tr>
+                </thead>
+
+                {% endif %}
+
+                {% endfor %}
+                {% endif %}
+            </table>
+        </div>
+    </div>
 </div>
-<!--</div>-->
-<!--</div>-->
 
 
 {% endblock %}
