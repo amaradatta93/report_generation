@@ -1,6 +1,7 @@
 {% extends 'index.html' %}
 {% block content %}
 
+<div class="col-sm-12">
 <form name="form" enctype="application/x-www-form-urlencoded" action="{% url 'dashboard:download' %}"
           method="POST">
 
@@ -17,8 +18,7 @@
         </div>
     </form>
 
-<div class="col-lg-12">
-
+<div class="table-responsive">
     <table class="table">
         <thead>
         <tr>
@@ -55,7 +55,8 @@
         {% endfor %}
 
     </table>
-
 </div>
+    </div>
+
 {% endblock %}
 
