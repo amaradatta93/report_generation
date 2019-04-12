@@ -2,14 +2,15 @@
 {% block content %}
 
 <div class="col-sm-12">
-<form name="form" enctype="application/x-www-form-urlencoded" action="{% url 'dashboard:download' %}"
+    <form name="form" enctype="application/x-www-form-urlencoded" action="{% url 'dashboard:download' %}"
           method="POST">
 
         {% csrf_token %}
         <div class="row justify-content-center">
             <div class="col-lg-6">
                 <div class="form-group row">
-                    <input type="hidden" class="form-control" id="downloadAsCsv" name="downloadAsCsv" value="{{ response }}">
+                    <input type="hidden" class="form-control" id="downloadAsCsv" name="downloadAsCsv"
+                           value="{{ response }}">
                 </div>
                 <div class="form-group row justify-content-center">
                     <button type="submit" class="btn btn-success">Download as Excel</button>
@@ -18,45 +19,47 @@
         </div>
     </form>
 
-<div class="table-responsive">
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">Account </th>
-            <th scope="col">Device </th>
-            <th scope="col">IMEI </th>
-            <th scope="col">SIM_Number </th>
-            <th scope="col">Added_On </th>
-            <th scope="col">Last_Reported_Date </th>
-            <th scope="col">Last_Reported_Time </th>
-        </tr>
-        </thead>
+    <div class="row justify-content-start align-items-center">
+        <div class="col-sm-12 table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Account</th>
+                    <th scope="col">Device</th>
+                    <th scope="col">IMEI</th>
+                    <th scope="col">SIM_Number</th>
+                    <th scope="col">Added_On</th>
+                    <th scope="col">Last_Reported_Date</th>
+                    <th scope="col">Last_Reported_Time</th>
+                </tr>
+                </thead>
 
-        {% for account in response %}
+                {% for account in response %}
 
-            <tbody>
+                <tbody>
                 {% if account.account_devices %}
 
-                    {% for device in account.account_devices %}
+                {% for device in account.account_devices %}
 
-                        <tr>
-                            <th scope="row">{{ account.account_name }}</th>
-                            <td>{{ device.device_name }}</td>
-                            <td>{{ device.imei }}</td>
-                            <td>{{ device.sim_number }}</td>
-                            <td>{{ device.added_on }}</td>
-                            <td>{{ device.last_reported_date }}</td>
-                            <td>{{ device.last_reported_time }}</td>
-                        </tr>
-                    {% endfor %}
+                <tr>
+                    <th scope="row">{{ account.account_name }}</th>
+                    <td>{{ device.device_name }}</td>
+                    <td>{{ device.imei }}</td>
+                    <td>{{ device.sim_number }}</td>
+                    <td>{{ device.added_on }}</td>
+                    <td>{{ device.last_reported_date }}</td>
+                    <td>{{ device.last_reported_time }}</td>
+                </tr>
+                {% endfor %}
                 {% endif %}
 
-            </tbody>
-        {% endfor %}
+                </tbody>
+                {% endfor %}
 
-    </table>
-</div>
+            </table>
+        </div>
     </div>
+</div>
 
 {% endblock %}
 
