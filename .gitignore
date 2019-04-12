@@ -276,6 +276,8 @@ auth.sh
 database_TBox122_backup-20180101232348
 *.sql
 *.csv
+*.swp
+
 TBox122
 Unresponsive_device_2019-01-17.csv
 
