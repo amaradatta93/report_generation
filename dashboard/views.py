@@ -61,6 +61,7 @@ def write_csv(request):
     :return: download the file to local system
     '''
     status = 'Failed'
+    response = None
     if request.method == 'POST':
         response = dict(request.POST)
         request_response = json.loads(response['downloadAsCsv'][0].replace("'", '"'))
@@ -70,27 +71,30 @@ def write_csv(request):
                        'added_on']
         csv_name = 'Unresponsive_device_' + str(datetime.datetime.now(pytz.timezone('US/Pacific')).date()) + '.csv'
         print('The unresponsive device report is available in "{0}"'.format(csv_name))
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="' + csv_name + '"'
 
         try:
-            with open(csv_name, 'w') as csvfile:
-                description_text = 'Device which have not reported since or before last ' + threshold_days + ' days'
-                description = csv.writer(csvfile)
-                description.writerow([description_text])
-                writer = csv.DictWriter(csvfile, dialect='excel', fieldnames=csv_columns)
-                writer.writeheader()
+            # with open(csv_name, 'w') as csvfile:
+            description_text = 'Device which have not reported since or before last ' + threshold_days + ' days'
+            description = csv.writer(response)
+            description.writerow([description_text])
+            writer = csv.DictWriter(response, dialect='excel', fieldnames=csv_columns)
+            writer.writeheader()
 
-                for each_account_devices in request_response:
-                    device_list = each_account_devices['account_devices']
+            for each_account_devices in request_response:
+                device_list = each_account_devices['account_devices']
 
-                    if device_list:
-                        for each_device in device_list:
-                            each_device['account_name'] = each_account_devices['account_name']
-                            writer.writerow(each_device)
+                if device_list:
+                    for each_device in device_list:
+                        each_device['account_name'] = each_account_devices['account_name']
+                        writer.writerow(each_device)
         except IOError:
             print("I/O error")
 
-        # response = HttpResponse(request_response, content_type='application/vnd.ms-excel')
-        # response['Content-Disposition'] = 'attachment; filename="foo.xls"'
+
+# response = HttpResponse(request_response, content_type='application/vnd.ms-excel')
+# response['Content-Disposition'] = 'attachment; filename="foo.xls"'
 
         status = 'Success'
-    return render(request, 'download_complete.html', {'status': status})
+    return render(request, 'download_complete.html', {'status': status, 'response': response})

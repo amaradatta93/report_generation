@@ -278,4 +278,7 @@ database_TBox122_backup-20180101232348
 *.csv
 TBox122
 Unresponsive_device_2019-01-17.csv
+
+dashboard_views.txt
+
 # End of https://www.gitignore.io/api/git,django,python,pycharm,virtualenv,pycharm+all
