@@ -23,7 +23,7 @@
                         <div class="form-group row">
                             <input type="text" class="form-control" id="numberOfDays" name="numberOfDays"
                                    aria-describedby="name"
-                                   placeholder="Device which has not reported since past {{ request.session.temp_data }} days">
+                                   placeholder="Device which has not reported since last {{ request.session.temp_data }} days">
                         </div>
                         <div class="form-group row justify-content-center">
                             <button type="submit" class="btn btn-dark">Get Devices List</button>
