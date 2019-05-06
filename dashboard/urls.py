@@ -7,5 +7,5 @@ app_name = 'dashboard'
 urlpatterns = [
     path('', views.show_all_accounts, name='account_name'),
     path('all/', views.not_reported_for_two_days, name='unresponsive'),
-    path('download/', views.write_csv, name='download'),
+    path('download', views.write_csv, name='download'),
 ]

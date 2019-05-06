@@ -74,7 +74,7 @@ def write_csv(request):
         response['Content-Disposition'] = 'attachment; filename="' + csv_name + '"'
 
         try:
-            description_text = 'Device which have not reported since or before last ' + threshold_days + ' days'
+            description_text = 'Device which have not reported since or before last ' + str(threshold_days) + ' days'
             description = csv.writer(response)
             description.writerow([description_text])
             writer = csv.DictWriter(response, dialect='excel', fieldnames=csv_columns)
