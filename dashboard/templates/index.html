@@ -11,22 +11,25 @@
 <body>
 
 <div class="container-fluid">
-
-    <div class="row mt-3 align-items-center justify-content-center">
+    <div class="row mt-3 justify-content-md-center align-items-center">
         <div class="col-lg-12 mt-3">
+
             <form name="form" enctype="multipart/form-data" action="{% url 'get_days:count' %}?Account_Id=None"
                   method="POST">
 
                 {% csrf_token %}
-                <div class="row justify-content-center">
-                    <div class="col-lg-6">
-                        <div class="form-group row">
+                <div class="row justify-content-md-center mb-3">
+                    <div class="col-md-7">
+                        <b> Enter the number of days device has not been reporting - (Default is 2 days)</b>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-group">
                             <input type="text" class="form-control" id="numberOfDays" name="numberOfDays"
                                    aria-describedby="name"
                                    placeholder="Device which has not reported since last {{ request.session.temp_data }} days">
-                        </div>
-                        <div class="form-group row justify-content-center">
+                            <span class="input-group-btn">
                             <button type="submit" class="btn btn-dark">Get Devices List</button>
+                        </span>
                         </div>
                     </div>
                 </div>
