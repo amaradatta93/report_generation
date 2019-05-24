@@ -6,7 +6,6 @@ from django.urls import reverse
 def days_html(request, Account_Id=None):
     request.session['temp_data'] = 2
     request.session['Account_Id'] = request.GET.get('Account_Id')
-    print('---------------------------------------------------')
     print(request.GET.get('Account_Id'))
 
     if request.GET.get('Account_Id') == 'None':
